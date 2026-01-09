@@ -42,21 +42,3 @@ next-env.d.ts
 
 
 
-
-# 1. Initialize git
-git init
-
-# 2. Add all your files (including the new vendor pages)
-git add .
-
-# 3. Create your first commit
-git commit -m "Initial commit: Marketplace and Vendor Ecosystem setup"
-
-# 4. Rename the branch to main
-git branch -M main
-
-# 5. Link to your GitHub (REPLACE the URL below with your actual repo link)
-git remote add origin https://github.com/Kinghostdev/Tofhost.git
-
-# 6. Push the code
-git push -u origin main
