@@ -1,31 +1,41 @@
 import type { Metadata } from "next";
-import "./globals.css";
-import { Manrope } from "next/font/google";
 import localFont from "next/font/local";
+import { Manrope } from "next/font/google";
 import { CartProvider } from "@/context/CartContext";
+import SupportChat from "@/components/shared/SupportChat"; // Import the chat
+import "./globals.css";
 
-const manrope = Manrope({ 
+const manrope = Manrope({
   subsets: ["latin"],
   variable: "--font-manrope",
-  display: "swap",
+  display: 'swap',
+  weight: ["200", "400", "600", "700", "800"],
 });
 
 const vastago = localFont({
-  src: [{ path: "../../public/fonts/VastagoGrotesk-Bold.otf", weight: "700" }],
+  src: "../../public/fonts/VastagoGrotesk-Bold.otf", 
   variable: "--font-vastago",
+  display: 'swap',
+  weight: "700",
 });
 
 export const metadata: Metadata = {
-  title: "TofHost | Spiritual Marketplace",
-  description: "Buy Spiritual and Church items from Verified Vendors",
+  title: "TofHost | Global Spiritual Marketplace",
+  description: "Secure spiritual marketplace with escrow protection.",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="en" className={`${manrope.variable} ${vastago.variable}`}>
-      <body className="font-sans antialiased text-tof-navy bg-white">
+    <html lang="en" className={`${vastago.variable} ${manrope.variable}`}>
+      <body className="antialiased font-manrope">
         <CartProvider>
           {children}
+          {/* Add the SupportChat here */}
+          <SupportChat />
         </CartProvider>
       </body>
     </html>

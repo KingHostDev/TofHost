@@ -1,95 +1,70 @@
-"use client"; // This component needs to be a Client Component to use hooks like useState and useContext
-
+"use client";
 import { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
-import { Search, ShoppingBag, Menu, X } from 'lucide-react';
-import { useCart } from '@/context/CartContext'; // Import useCart
+import { ShoppingBag, Search, Menu, Bell, User } from 'lucide-react';
+import { useCart } from "@/context/CartContext";
+import NotificationCenter from "./NotificationCenter";
 
 export default function Header() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { cartCount, toggleCart } = useCart(); // Use cartCount and toggleCart from context
-
-  const navLinks = [
-    { name: "Home", href: "/" },
-    { name: "Marketplace", href: "/shop" },
-    { name: "Vendors", href: "/vendors" }, // Placeholder for future vendors page
-    { name: "About", href: "/about" },
-    { name: "Contact", href: "/contact" },
-  ];
+  const { cartCount, toggleCart } = useCart();
+  const [isNotifOpen, setIsNotifOpen] = useState(false);
 
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-50">
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          {/* Replace with your actual logo if you have one */}
-          <span className="font-heading text-2xl font-bold text-tof-navy">TofHost</span>
-          {/* <Image src="/logo.png" alt="TofHost Logo" width={40} height={40} /> */}
+    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+      <div className="container mx-auto px-4 h-20 flex items-center justify-between">
+        
+        {/* Logo - Vastago Grotesk */}
+        <Link href="/" className="font-heading text-2xl font-bold text-tof-navy tracking-tight">
+          TofHost<span className="text-tof-blue">.</span>
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <Link 
-              key={link.name} 
-              href={link.href} 
-              className="text-gray-600 font-medium hover:text-tof-blue transition-colors"
-            >
-              {link.name}
-            </Link>
-          ))}
+        {/* Desktop Navigation - Manrope */}
+        <nav className="hidden lg:flex items-center gap-8 font-manrope font-bold text-sm text-gray-500">
+          <Link href="/shop" className="hover:text-tof-blue transition-colors">Marketplace</Link>
+          <Link href="/vendor" className="hover:text-tof-blue transition-colors">Sell on TofHost</Link>
+          <Link href="/about" className="hover:text-tof-blue transition-colors">Our Mission</Link>
         </nav>
 
-        {/* Right Icons & Buttons */}
-        <div className="flex items-center gap-4">
-          <button className="p-2 text-gray-600 hover:text-tof-blue transition-colors">
-            <Search className="w-6 h-6" />
-          </button>
-          
-          {/* Cart Icon - NOW TOGGLES THE SIDEBAR */}
-          <button onClick={toggleCart} className="relative p-2 text-gray-600 hover:text-tof-blue transition-colors">
-            <ShoppingBag className="w-6 h-6" />
-            {cartCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-tof-green text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full animate-pulse-once">
-                {cartCount}
-              </span>
-            )}
+        {/* Action Icons */}
+        <div className="flex items-center gap-2 md:gap-5">
+          {/* Search Trigger */}
+          <button className="p-2 text-gray-400 hover:text-tof-blue transition-colors">
+            <Search size={22} />
           </button>
 
-          {/* Mobile Menu Toggle */}
+          {/* Notification Bell with Unread Indicator */}
           <button 
-            className="md:hidden p-2 text-gray-600 hover:text-tof-blue transition-colors" 
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            onClick={() => setIsNotifOpen(true)}
+            className="p-2 text-gray-400 hover:text-tof-blue transition-colors relative"
+            aria-label="Open Notifications"
           >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            <Bell size={22} />
+            <span className="absolute top-2 right-2 w-2 h-2 bg-tof-blue rounded-full border-2 border-white"></span>
+          </button>
+
+          {/* Cart Toggle */}
+          <button 
+            onClick={toggleCart}
+            className="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-2xl hover:bg-gray-100 transition-all group"
+          >
+            <ShoppingBag size={20} className="text-tof-navy group-hover:text-tof-blue" />
+            <span className="font-manrope font-bold text-sm text-tof-navy">{cartCount}</span>
+          </button>
+
+          {/* Profile Link */}
+          <Link href="/profile" className="hidden md:flex p-2 text-gray-400 hover:text-tof-blue transition-colors">
+            <User size={22} />
+          </Link>
+
+          {/* Mobile Menu */}
+          <button className="lg:hidden p-2 text-tof-navy">
+            <Menu size={24} />
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 bg-white z-40 flex flex-col items-center py-10 animate-in slide-in-from-top-4 duration-300">
-          <button 
-            className="absolute top-4 right-4 p-2 text-gray-600 hover:text-tof-blue" 
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            <X className="w-6 h-6" />
-          </button>
-          <nav className="flex flex-col gap-6 text-xl mt-10">
-            {navLinks.map((link) => (
-              <Link 
-                key={link.name} 
-                href={link.href} 
-                className="text-tof-navy font-bold hover:text-tof-blue transition-colors"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {link.name}
-              </Link>
-            ))}
-          </nav>
-        </div>
-      )}
+      {/* Slide-over Notification Center Component */}
+      <NotificationCenter isOpen={isNotifOpen} onClose={() => setIsNotifOpen(false)} />
     </header>
   );
 }
