@@ -56,7 +56,7 @@ git commit -m "Initial commit: Marketplace and Vendor Ecosystem setup"
 git branch -M main
 
 # 5. Link to your GitHub (REPLACE the URL below with your actual repo link)
-git remote add origin https://github.com/7vcgdfpjct-maker/Tofhost.git
+git remote add origin https://github.com/Kinghostdev/Tofhost.git
 
 # 6. Push the code
 git push -u origin main
