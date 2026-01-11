@@ -1,31 +1,25 @@
 import type { Metadata } from "next";
-import "./globals.css";
 import { Manrope } from "next/font/google";
 import localFont from "next/font/local";
 import { CartProvider } from "@/context/CartContext";
+import Header from "@/components/layout/Header";
+import "./globals.css";
 
-const manrope = Manrope({ 
-  subsets: ["latin"],
-  variable: "--font-manrope",
-  display: "swap",
-});
+const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope", display: "swap" });
+const vastago = localFont({ src: "../../public/fonts/VastagoGrotesk-Bold.otf", variable: "--font-heading", display: "swap" });
 
-const vastago = localFont({
-  src: [{ path: "../../public/fonts/VastagoGrotesk-Bold.otf", weight: "700" }],
-  variable: "--font-vastago",
-});
-
-export const metadata: Metadata = {
-  title: "TofHost | Spiritual Marketplace",
-  description: "Buy Spiritual and Church items from Verified Vendors",
-};
+export const metadata: Metadata = { title: "TofHost Marketplace", description: "Secure hosting" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${manrope.variable} ${vastago.variable}`}>
-      <body className="font-sans antialiased text-tof-navy bg-white">
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${manrope.variable} ${vastago.variable} antialiased font-manrope bg-white`} suppressHydrationWarning>
         <CartProvider>
-          {children}
+          <div className="flex min-h-screen flex-col">
+            <main className="flex-grow">
+              {children} {/* This is where your page.tsx content goes */}
+            </main>
+          </div>
         </CartProvider>
       </body>
     </html>

@@ -1,23 +1,26 @@
 @import "tailwindcss";
 
+/* Tailwind v4 specific theme block */
 @theme {
-  /* TofHost Color Palette from your design */
-  --color-tof-blue: #3B82F6;
-  --color-tof-blue-light: #EFF6FF;
-  --color-tof-navy: #0A0F1C;
-  --color-tof-green: #22C55E;
+  --font-heading: var(--font-vastago);
+  --font-manrope: var(--font-manrope);
   
-  /* Linking your Vastago and Manrope fonts */
-  --font-sans: var(--font-manrope), ui-sans-serif, system-ui;
-  --font-heading: var(--font-vastago), ui-sans-serif, system-ui;
+  --color-tof-navy: #0A0E1A;
+  --color-tof-blue: #0066FF;
+  --color-tof-blue-light: #F0F6FF;
+  --color-tof-green: #22C55E;
 }
 
-@layer base {
-  body {
-    @apply bg-white text-tof-navy antialiased font-sans;
-  }
-  
-  h1, h2, h3, h4 {
-    @apply font-heading font-bold;
-  }
+/* Fallback for the naked look */
+:root {
+  --font-vastago: "Vastago Grotesk", sans-serif;
+  --font-manrope: "Manrope", sans-serif;
+}
+
+body {
+  font-family: var(--font-manrope);
+}
+
+.font-heading {
+  font-family: var(--font-vastago) !important;
 }
